@@ -1,11 +1,7 @@
 name: Build
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
+  workflow_dispatch:  # Allows the workflow to be triggered manually
+
 jobs:
   build:
     name: Build
@@ -27,3 +23,8 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build
         run: mvn -B verify
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifacts
+          path: target/*
